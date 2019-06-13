@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import api from '../services/api';
 // css
 import './Feed.css';
 
@@ -8,66 +9,48 @@ import comment from '../assets/comment.svg';
 import send from '../assets/send.svg';
 
 export default class Feed extends Component {
+    
+    state = {
+        feed: []
+    };
+
+    async componentDidMount() {
+        const response = await api.get('posts');
+        this.setState({ feed: response.data });
+    }
+
     render() {
         return (
             <section id="post-list">
-                <article>
+                { this.state.feed.map(post => (
+                    <article>
 
-                    <header>
-                        <div className="user-info">
-                            <span>Leonardo Antonio Miranda</span>
-                            <span className="place"> Joinville </span>
-                        </div>
-                        <img src={more} alt="Mais"/>
-                    </header>
+                        <header>
+                            <div className="user-info">
+                                <span> {post.author}</span>
+                                <span className="place"> {post.place} </span>
+                            </div>
+                            <img src={more} alt="Mais"/>
+                        </header>
 
-                    <img src="http://planoviver.com.br/imgs/plano-empresarial-1.webp" alt="Post"/>
+                        <img src={`http://localhost/files/${post.image}`} alt="Post"/>
 
-                    <footer>
-                        <div className="actions">
-                            <img src={like} alt=""/>
-                            <img src={comment} alt=""/>
-                            <img src={send} alt=""/>
-                        </div>
+                        <footer>
+                            <div className="actions">
+                                <img src={like} alt=""/>
+                                <img src={comment} alt=""/>
+                                <img src={send} alt=""/>
+                            </div>
 
-                        <strong>900 curtidas</strong>
+                            <strong>{post.likes} curtidas</strong>
 
-                        <p>
-                            Post 1 dessa bagaça
-                            <span>#react</span>
-                        </p>
-                    </footer>
+                            <p> {post.description} <span>{post.hashtag}</span> </p>
+                        </footer>
 
-                </article>
+                    </article>
 
-                <article>
+                ))}
 
-                    <header>
-                        <div className="user-info">
-                            <span>Leonardo Antonio Miranda</span>
-                            <span className="place"> Joinville </span>
-                        </div>
-                        <img src={more} alt="Mais"/>
-                    </header>
-
-                    <img src="http://planoviver.com.br/imgs/plano-empresarial-1.webp" alt="Post"/>
-
-                    <footer>
-                        <div className="actions">
-                            <img src={like} alt=""/>
-                            <img src={comment} alt=""/>
-                            <img src={send} alt=""/>
-                        </div>
-
-                        <strong>900 curtidas</strong>
-
-                        <p>
-                            Post 1 dessa bagaça
-                            <span>#react</span>
-                        </p>
-                    </footer>
-
-                </article>
             </section>
         );
     }
