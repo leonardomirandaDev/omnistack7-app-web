@@ -44,7 +44,7 @@ export default class Feed extends Component {
 
                             <strong>{post.likes} curtidas</strong>
 
-                            <p> {post.description} <span>{post.hashtag}</span> </p>
+                            <p> {post.description} <span>{post.hashtags}</span> </p>
                         </footer>
 
                     </article>
